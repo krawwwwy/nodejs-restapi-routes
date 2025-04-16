@@ -1,15 +1,5 @@
 const travelRouteModel = require('../models/travelRouteModel');
 
-const getRoutes = async (req, res) => {
-  const userId = req.user.id; // Предполагается, что пользователь аутентифицирован
-  try {
-    const routes = await travelRouteModel.getAllRoutes(userId);
-    res.status(200).json(routes);
-  } catch (error) {
-    res.status(500).json({ message: 'Server Error' });
-  }
-};
-
 const createRoute = async (req, res) => {
   const userId = req.user.id;
   const { name, description, location, duration, rating } = req.body;
@@ -46,7 +36,6 @@ const deleteRoute = async (req, res) => {
 };
 
 module.exports = {
-  getRoutes,
   createRoute,
   updateRoute,
   deleteRoute,

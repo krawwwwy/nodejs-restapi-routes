@@ -1,5 +1,10 @@
 const db = require('../config/db');
 
+const getRoutesByUserId = async (userId) => {
+  const result = await db.query('SELECT * FROM travel_routes WHERE user_id = $1 ORDER BY id', [userId]);
+  return result.rows;
+};
+
 const getAllRoutes = async () => {
   const result = await db.query('SELECT * FROM travel_routes ORDER BY id');
   return result.rows;
@@ -26,6 +31,7 @@ const deleteRoute = async (id) => {
 };
 
 module.exports = {
+  getRoutesByUserId,
   getAllRoutes,
   addRoute,
   updateRoute,

@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Routes Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6C63FF;
-            --primary-light: #A5A1FF;
-            --secondary: #FF6584;
-            --success: #4CAF50;
-            --danger: #FF5252;
-            --light: #FFF9F9;
-            --dark: #333333;
-            --soft-gray: #F5F5F5;
-            --font-family-base: 'Poppins', sans-serif;
-            --font-family-heading: 'Comfortaa', cursive;
-            --border-radius: 12px;
-            --box-shadow: 0 8px 20px rgba(108, 99, 255, 0.1);
-            --box-shadow-hover: 0 12px 24px rgba(108, 99, 255, 0.15);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --primary: #1E90FF;
+            --primary-light: #87CEFA;
+            --secondary: #FF4500;
+            --success: #32CD32;
+            --danger: #DC143C;
+            --light: #FFFFF0;
+            --dark: #2F4F4F;
+            --soft-gray: #F0F8FF;
+            --font-family-base: 'Roboto', sans-serif;
+            --font-family-heading: 'Lora', serif;
+            --border-radius: 10px;
+            --box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease-in-out;
         }
 
         * {
@@ -35,7 +35,6 @@
             color: var(--dark);
             background-color: var(--light);
             line-height: 1.6;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsPSJub25lIiBzdHJva2U9IiNmMWYxZjEiIHN0cm9rZS13aWR0aD0iMSI+CiAgPHBhdGggZD0iTTAgMEg0MFY0MEgweiIvPgogIDxwYXRoIGQ9Ik0xMCAxMEgzMFYzMEgxMHoiLz4KICA8cGF0aCBkPSJNMzAgMTBIMTBWMzBIMzB6Ii8+Cjwvc3ZnPg==');
         }
 
         .container {
@@ -169,7 +168,7 @@
 
         input:focus, textarea:focus, select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.2);
             outline: none;
             background-color: white;
         }
@@ -196,12 +195,12 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(108, 99, 255, 0.4);
+            box-shadow: 0 6px 16px rgba(30, 144, 255, 0.4);
         }
 
         .btn-outline {
@@ -217,14 +216,14 @@
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, var(--danger), #FF7B7B);
+            background: linear-gradient(135deg, var(--danger), #FF6347);
             color: white;
-            box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
         }
 
         .btn-danger:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(255, 82, 82, 0.4);
+            box-shadow: 0 6px 16px rgba(220, 20, 60, 0.4);
         }
 
         .error-message {
@@ -236,7 +235,7 @@
             display: none;
             animation: fadeIn 0.3s ease;
             position: relative;
-            box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
         }
 
         .error-message i {
@@ -366,7 +365,7 @@
         }
 
         .stars {
-            color: #FFC107;
+            color: #FFD700;
         }
 
         .route-description {
@@ -443,7 +442,7 @@
         }
 
         .recommended-stars {
-            color: #FFC107;
+            color: #FFD700;
         }
 
         .recommended-route-description {
@@ -512,7 +511,7 @@
 
         .modal-close:hover {
             color: var(--danger);
-            background-color: rgba(255, 82, 82, 0.1);
+            background-color: rgba(220, 20, 60, 0.1);
         }
 
         .modal-title {
@@ -535,7 +534,7 @@
             width: 50px;
             height: 50px;
             margin: 3rem auto;
-            border: 5px solid rgba(108, 99, 255, 0.1);
+            border: 5px solid rgba(30, 144, 255, 0.1);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s ease-in-out infinite;
@@ -677,6 +676,18 @@
             <div id="routes" class="routes-container">
                 <!-- Маршруты будут загружены сюда -->
             </div>
+        </div>
+
+        <!-- Recommended Routes Section -->
+        <div id="recommended-routes-section" class="recommended-routes-section" style="display: none;">
+            <h2 class="section-title">Recommended Routes</h2>
+            <div id="recommended-routes" class="recommended-routes-container">
+                <!-- Рекомендованные маршруты будут загружены сюда -->
+            </div>
+        </div>
+
+        <!-- Add Route Section -->
+        <div id="add-route-section" class="form-section" style="display: none;">
             <div class="form-container">
                 <h2><i class="fas fa-plus-circle"></i> Add New Route</h2>
                 <form id="routeForm">
@@ -711,14 +722,6 @@
                         <i class="fas fa-plus"></i> Add Route
                     </button>
                 </form>
-            </div>
-        </div>
-
-        <!-- Recommended Routes Section -->
-        <div id="recommended-routes-section" class="recommended-routes-section" style="display: none;">
-            <h2 class="section-title">Recommended Routes</h2>
-            <div id="recommended-routes" class="recommended-routes-container">
-                <!-- Рекомендованные маршруты будут загружены сюда -->
             </div>
         </div>
     </main>
@@ -979,6 +982,7 @@
                 document.getElementById('auth-section').style.display = 'none';
                 document.getElementById('routes-section').style.display = 'block';
                 document.getElementById('recommended-routes-section').style.display = 'block';
+                document.getElementById('add-route-section').style.display = 'block';
                 updateNavLinks();
             } catch (error) {
                 console.error('Login error:', error);
@@ -1163,6 +1167,7 @@
             document.getElementById('auth-section').style.display = 'block';
             document.getElementById('routes-section').style.display = 'none';
             document.getElementById('recommended-routes-section').style.display = 'none';
+            document.getElementById('add-route-section').style.display = 'none';
             updateNavLinks();
         }
 
@@ -1175,6 +1180,7 @@
                 document.getElementById('auth-section').style.display = 'none';
                 document.getElementById('routes-section').style.display = 'block';
                 document.getElementById('recommended-routes-section').style.display = 'block';
+                document.getElementById('add-route-section').style.display = 'block';
             }
             updateNavLinks();
         });

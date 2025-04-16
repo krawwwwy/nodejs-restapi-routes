@@ -4,7 +4,17 @@ const travelRoutesController = require('../controllers/travelRoutesController');
 const { authenticateToken } = require('../middlewares/authMiddleware');
 const travelRouteModel = require('../models/travelRouteModel');
 
-router.get('/routes', authenticateToken, travelRoutesController.getRoutes);
+// Получение маршрутов конкретного пользователя
+router.get('/routes', authenticateToken, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const routes = await travelRouteModel.getRoutesByUserId(userId);
+        res.status(200).json(routes);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
 router.post('/routes', authenticateToken, travelRoutesController.createRoute);
 router.put('/routes/:id', authenticateToken, travelRoutesController.updateRoute);
 router.delete('/routes/:id', authenticateToken, travelRoutesController.deleteRoute);
