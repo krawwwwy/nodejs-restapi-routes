@@ -1,7 +1,7 @@
 const db = require('../config/db');
 
-const getAllRoutes = async (userId) => {
-  const result = await db.query('SELECT * FROM travel_routes WHERE user_id = $1 ORDER BY id', [userId]);
+const getAllRoutes = async () => {
+  const result = await db.query('SELECT * FROM travel_routes ORDER BY id');
   return result.rows;
 };
 

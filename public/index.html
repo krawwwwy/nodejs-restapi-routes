@@ -381,6 +381,77 @@
             margin-top: 1rem;
         }
 
+        /* Recommended Routes Section */
+        .recommended-routes-section {
+            margin-top: 3rem;
+        }
+
+        .recommended-routes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .recommended-route-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.8rem;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .recommended-route-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .recommended-route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recommended-route-title {
+            font-family: var(--font-family-heading);
+            color: var(--secondary);
+            font-size: 1.4rem;
+            margin: 0;
+        }
+
+        .recommended-route-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .recommended-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .recommended-meta-item i {
+            color: var(--secondary);
+        }
+
+        .recommended-stars {
+            color: #FFC107;
+        }
+
+        .recommended-route-description {
+            color: #555;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+
         /* Modal styles */
         .modal-overlay {
             position: fixed;
@@ -491,7 +562,8 @@
                 padding: 1.8rem;
             }
 
-            .routes-container {
+            .routes-container,
+            .recommended-routes-container {
                 grid-template-columns: 1fr;
             }
 
@@ -601,6 +673,7 @@
 
         <!-- Routes Section -->
         <div id="routes-section" class="routes-section" style="display: none;">
+            <h2 class="section-title">Your Routes</h2>
             <div id="routes" class="routes-container">
                 <!-- Маршруты будут загружены сюда -->
             </div>
@@ -638,6 +711,14 @@
                         <i class="fas fa-plus"></i> Add Route
                     </button>
                 </form>
+            </div>
+        </div>
+
+        <!-- Recommended Routes Section -->
+        <div id="recommended-routes-section" class="recommended-routes-section" style="display: none;">
+            <h2 class="section-title">Recommended Routes</h2>
+            <div id="recommended-routes" class="recommended-routes-container">
+                <!-- Рекомендованные маршруты будут загружены сюда -->
             </div>
         </div>
     </main>
@@ -780,6 +861,66 @@
             }
         }
 
+        async function fetchRecommendedRoutes() {
+            showLoading(true);
+            try {
+                const response = await fetch('/api/routes/recommended', {
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const routes = await response.json();
+                const recommendedRoutesContainer = document.getElementById('recommended-routes');
+                recommendedRoutesContainer.innerHTML = '';
+
+                if (routes.length === 0) {
+                    recommendedRoutesContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-route"></i>
+                            <p>No recommended routes found. Try refreshing the page!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                routes.forEach(route => {
+                    const routeElement = document.createElement('div');
+                    routeElement.className = 'recommended-route-card';
+                    routeElement.innerHTML = `
+                        <div class="recommended-route-header">
+                            <h3 class="recommended-route-title">${route.name}</h3>
+                        </div>
+                        <div class="recommended-route-meta">
+                            <div class="recommended-meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${route.location}</span>
+                            </div>
+                            <div class="recommended-meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>${route.duration}</span>
+                            </div>
+                            <div class="recommended-meta-item">
+                                <i class="fas fa-star"></i>
+                                <span class="recommended-stars">${'★'.repeat(route.rating)}${'☆'.repeat(5 - route.rating)}</span>
+                            </div>
+                        </div>
+                        <p class="recommended-route-description">${route.description}</p>
+                    `;
+                    recommendedRoutesContainer.appendChild(routeElement);
+                });
+            } catch (error) {
+                console.error('Fetch recommended routes error:', error);
+                showError('Failed to load recommended routes. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = document.getElementById('registerUsername').value;
@@ -832,10 +973,12 @@
                 showError('Login successful!');
                 document.getElementById('error-message').style.backgroundColor = 'var(--success)';
                 fetchRoutes();
+                fetchRecommendedRoutes();
 
                 // Switch to routes section after login
                 document.getElementById('auth-section').style.display = 'none';
                 document.getElementById('routes-section').style.display = 'block';
+                document.getElementById('recommended-routes-section').style.display = 'block';
                 updateNavLinks();
             } catch (error) {
                 console.error('Login error:', error);
@@ -1019,6 +1162,7 @@
             localStorage.removeItem('token');
             document.getElementById('auth-section').style.display = 'block';
             document.getElementById('routes-section').style.display = 'none';
+            document.getElementById('recommended-routes-section').style.display = 'none';
             updateNavLinks();
         }
 
@@ -1027,8 +1171,10 @@
             const token = localStorage.getItem('token');
             if (token) {
                 fetchRoutes();
+                fetchRecommendedRoutes();
                 document.getElementById('auth-section').style.display = 'none';
                 document.getElementById('routes-section').style.display = 'block';
+                document.getElementById('recommended-routes-section').style.display = 'block';
             }
             updateNavLinks();
         });
