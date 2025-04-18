@@ -529,40 +529,45 @@
         });
 
         async function updateRoute(id) {
-            try {
-                showLoading(true);
-
-                const response = await fetch(`/api/routes/${id}`, {
-                    headers: {
-                        'Authorization': localStorage.getItem('token')
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const route = await response.json();
-
-                if (!route) {
-                    throw new Error('Route not found');
-                }
-
-                document.getElementById('editId').value = route.id;
-                document.getElementById('editName').value = route.name;
-                document.getElementById('editDescription').value = route.description;
-                document.getElementById('editLocation').value = route.location;
-                document.getElementById('editDuration').value = route.duration;
-                document.getElementById('editRating').value = route.rating;
-                document.getElementById('modalTitle').textContent = `Edit ${route.name}`;
-
-                document.getElementById('editModal').classList.add('active');
-            } catch (error) {
-                console.error('Error preparing edit form:', error);
-                showError('Failed to load route data for editing. Please try again.');
-            } finally {
-                showLoading(false);
+    try {
+        showLoading(true);
+        
+        // Получаем все маршруты пользователя
+        const response = await fetch('/api/routes', {
+            headers: {
+                'Authorization': localStorage.getItem('token')
             }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        
+        const routes = await response.json();
+        const route = routes.find(r => r.id == id);
+        
+        if (!route) {
+            throw new Error('Route not found');
+        }
+
+        // Заполняем форму редактирования
+        document.getElementById('editId').value = route.id;
+        document.getElementById('editName').value = route.name;
+        document.getElementById('editDescription').value = route.description;
+        document.getElementById('editLocation').value = route.location;
+        document.getElementById('editDuration').value = route.duration;
+        document.getElementById('editRating').value = route.rating;
+        document.getElementById('modalTitle').textContent = `Edit ${route.name}`;
+
+        document.getElementById('editModal').classList.add('active');
+    } catch (error) {
+        console.error('Error preparing edit form:', error);
+        showError('Failed to load route data for editing. Please try again.');
+    } finally {
+        showLoading(false);
+    }
+}
+
 
         function closeEditModal() {
             document.getElementById('editModal').classList.remove('active');
